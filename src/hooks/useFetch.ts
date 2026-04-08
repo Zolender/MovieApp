@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 export default function useFetch<T>(url: string){
     const [data, setData] = useState<T | undefined>(undefined)
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string>("")
+    const [error, setError] = useState<Error | null>(null)
 
     useEffect(()=>{
+        if(!url)return
         const controller = new AbortController()
 
 
@@ -21,7 +22,7 @@ export default function useFetch<T>(url: string){
                 setData(json)
             }catch(err){
                 if(err instanceof Error && err.name !=="AbortError"){
-                    setError(`Something went wrong: ${err.message}`)
+                    setError(err)
                 }
             }finally{
                 setIsLoading(false)
