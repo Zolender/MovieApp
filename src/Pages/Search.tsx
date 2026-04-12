@@ -15,8 +15,9 @@ const Search = () => {
     const handleSubmit= (e: React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         if(!query.trim())return
-        setSearchUrl(`https://www.omdabpi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`)
+        setSearchUrl(`https://www.omdbpi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`)
     }
+
     
     return (
         <div className="">
