@@ -23,7 +23,7 @@ const Search = () => {
             <h1 className="">Search Movies</h1>
             <form className="">
                 <input type="text" value={query} onChange={(e)=> setQuery(e.target.value)} placeholder="Search a movie..." className="" />
-                <button className="" disabled={isLoading} type="submit">{isLoading? "Searching...": "Search"}</button>
+                <button onClick={()=>handleSubmit} className="" disabled={isLoading} type="submit">{isLoading? "Searching...": "Search"}</button>
             
             </form>
             {error && <p className="text-red-400">Error:{error.message}</p>}
