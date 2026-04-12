@@ -16,6 +16,18 @@ const Login = () => {
             setError("Please fill the input fields properly")
             return false
         }
+
+
+        if(formData.username.trim().length< 3){
+            setError("Username must be at least 3 chars long gee")
+            return false
+        }
+
+        if(formData.password.trim().length < 6){
+            setError("Password must be at least 6 characters sir/ma'am")
+            return false
+        }
+        
         return true
     }
 
