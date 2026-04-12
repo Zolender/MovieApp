@@ -20,6 +20,13 @@ const MovieDetails = () => {
             <div className="">
                 <p className="">{movie.Title}</p>
                 <p className="">{movie.Year} • {movie.Genre} • {movie.Runtime}</p>
+                <p className="">{movie.imdbRating}</p>
+                <p className="">{movie.Plot}</p>
+                <p className=""><span className="">Director: </span>{movie.Director}</p>
+                <p className=""><span className="">Actors: </span>{movie.Actors}</p>
+
+                
+
             </div>
         
         </div>
