@@ -16,7 +16,7 @@ export default function useFetch<T>(url: string){
             try{
                 const response = await fetch(url, {signal: controller.signal})
                 if(!response.ok){
-                    throw new Error("Failed to retrieve needed data from the endpoint: " + response.statusText)
+                    throw new Error("Failed to retrieve needed data from the endpoint: " + response.status)
                 }
                 const json = await response.json()
                 setData(json)
