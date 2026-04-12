@@ -12,7 +12,7 @@ const Search = () => {
     const [searchUrl, setSearchUrl] = useState("")
     const {data, isLoading, error} = useFetch<SearchResponse>(searchUrl)
 
-    const handleSubmit= (e: React.SubmitEvent<HTMLFormElement>)=>{
+    const handleSubmit= (e: React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         if(!query.trim())return
         setSearchUrl(`https://www.omdabpi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`)
@@ -23,7 +23,7 @@ const Search = () => {
             <h1 className="">Search Movies</h1>
             <form className="">
                 <input type="text" value={query} onChange={(e)=> setQuery(e.target.value)} placeholder="Search a movie..." className="" />
-                <button onClick={()=>handleSubmit} className="" disabled={isLoading} type="submit">{isLoading? "Searching...": "Search"}</button>
+                <button onClick={(e)=>handleSubmit(e)} className="" disabled={isLoading}  type="submit">{isLoading? "Searching...": "Search"}</button>
             
             </form>
             {error && <p className="text-red-400">Error:{error.message}</p>}

@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { MovieDetails } from "../types";
+import { Star } from "lucide-react";
 
 const apiKey = import.meta.env.API_URL
 
@@ -20,7 +21,7 @@ const MovieDetails = () => {
             <div className="">
                 <p className="">{movie.Title}</p>
                 <p className="">{movie.Year} • {movie.Genre} • {movie.Runtime}</p>
-                <p className="">{movie.imdbRating}</p>
+                <p className=""><Star fill="yellow"/> {movie.imdbRating}</p>
                 <p className="">{movie.Plot}</p>
                 <p className=""><span className="">Director: </span>{movie.Director}</p>
                 <p className=""><span className="">Actors: </span>{movie.Actors}</p>
