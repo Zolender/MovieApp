@@ -15,7 +15,7 @@ const Search = () => {
     const handleSubmit= (e: React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         if(!query.trim())return
-        setSearchUrl(`https://www.omdbpi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`)
+        setSearchUrl(`https://www.omdbapi.com/?s=${encodeURIComponent(query)}apikey=${apiKey}`)
     }
 
     
@@ -24,7 +24,7 @@ const Search = () => {
             <h1 className="">Search Movies</h1>
             <form className="">
                 <input type="text" value={query} onChange={(e)=> setQuery(e.target.value)} placeholder="Search a movie..." className="" />
-                <button onClick={(e)=>handleSubmit(e)} className="" disabled={isLoading}  type="submit">{isLoading? "Searching...": "Search"}</button>
+                <button onClick={(e)=>handleSubmit(e)} className=""   type="submit">{isLoading? "Searching...": "Search"}</button>
             
             </form>
             {error && <p className="text-red-400">Error:{error.message}</p>}
