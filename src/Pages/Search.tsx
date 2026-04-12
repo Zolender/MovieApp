@@ -26,6 +26,29 @@ const Search = () => {
                 <button className="" disabled={isLoading} type="submit">{isLoading? "Searching...": "Search"}</button>
             
             </form>
+            {error && <p className="text-red-400">Error:{error.message}</p>}
+
+            {/* this would be specific for omdbapi site which return .Response === "False" when the fetch goes well but the needed movie isn't found in their db */}
+            {data?.Response=== "False" && <p className="">{data.Error}</p>}
+
+            {data?.Response === "True" && (
+                <div className="">
+                    <p className="">{data.totalResults} results found</p>
+                    <div className="">
+                        {data.Search.map((movie)=>(
+                            <div className="hover:cursor-pointer" key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)}>
+                                {movie.Poster !== "N/A" ? (
+                                    <img className="" src={movie.Poster} alt={movie.Title}/>
+                                ) : (
+                                    <div className="">No Image Available</div>
+                                )}
+                                <p className="">{movie.Title}</p>
+                                <p className="">{movie.Year}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
