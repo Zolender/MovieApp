@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { SearchResponse } from "../types";
 
-const apiKey = import.meta.env.API_URL
+const apiKey = import.meta.env.VITE_API_URL
 
 const Search = () => {
 
@@ -15,7 +15,7 @@ const Search = () => {
     const handleSubmit= (e: React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         if(!query.trim())return
-        setSearchUrl(`https://www.omdbapi.com/?s=${query}apikey=${apiKey}`)
+        setSearchUrl(`https://www.omdbapi.com/?s=${encodeURI(query)}apikey=${apiKey}`)
     }
 
     
