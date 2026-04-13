@@ -1,14 +1,39 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
-import { MovieDetails } from "../types";
+import { MovieDetails as MovieDetailsType } from "../types";
 import { Star } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { addFavorite, removeFavorite } from "../store/favoriteSlice";
 
 const apiKey = import.meta.env.VITE_API_URL
 
 const MovieDetails = () => {
     const {id}= useParams();
     const navigate = useNavigate()
-    const {data: movie, isLoading, error} = useFetch<MovieDetails>(`https://www.omdbapi.com/?i=${id}&apikey=${apiKey}`)
+    const {data: movie, isLoading, error} = useFetch<MovieDetailsType>(`https://www.omdbapi.com/?i=${id}&apikey=${apiKey}`)
+    
+    const dispatch = useDispatch()
+    const favorites = useSelector((state: RootState)=> state.favorites.movies)
+
+    const isFavorite = favorites.some((fav)=> fav.imdbID === id)
+    
+    const handleFavorite = ()=>{
+        if(!movie)return
+
+        if(isFavorite){
+            dispatch(removeFavorite(movie.imdbID))
+        }else {
+            dispatch(addFavorite({
+                imdbID: movie.imdbID,
+                Title: movie.Title,
+                Year: movie.Year,
+                Poster: movie.Poster,
+                Type: movie.Type
+            }))
+        }
+    }
+    
     
     if(isLoading)return <p className="">Loading movie...</p>
     if(error)return <p className="">Error: {error.message}</p>
@@ -19,16 +44,15 @@ const MovieDetails = () => {
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=> navigate(-1)}>← Back</button>
         
             <div className="bg-white p-6 shadow-md rounded-md">
+                <div className="">{movie.Poster !== "N/A" ? <img className="" src={movie.Poster} alt={movie.Title}/> : <div className="">No Image Available</div>}</div>
                 <h1 className="text-3xl font-bold">{movie.Title}</h1>
                 <p className="text-lg">{movie.Year} • {movie.Genre} • {movie.Runtime}</p>
-                <p className="flex items-center"><Star fill="yellow" className="mr-2"/><span className="text-xl">{movie.imdbRating}</span></p>
+                <p className="flex items-center"><Star  className={`mr-2 hover:cursor-pointer ${!isFavorite? "bg-transparent" : "fill-amber-300"}`}/><span className="text-xl">{movie.imdbRating}</span></p>
                 <p className="">{movie.Plot}</p>
                 <p className=""><span className="font-bold">Director: </span>{movie.Director}</p>
                 <p className=""><span className="font-bold">Actors: </span>{movie.Actors}</p>
-
-                
+                <button className="" onClick={handleFavorite}>{isFavorite?"Remove from favorites":"Add to favorites"}</button>
             </div>
-        
         </div>
     );
 }
