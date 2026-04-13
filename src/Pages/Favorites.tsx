@@ -2,11 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
 import { removeFavorite } from "../store/favoriteSlice";
+import toast from "react-hot-toast";
 
 const Favorites = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const favorites = useSelector((state: RootState)=> state.favorites.movies)
+    const handleRemove = (imdbID: string, title: string)=>{
+        dispatch(removeFavorite(imdbID))
+        toast.error(`"${title}" removed from favorites`, {duration: 3000})
+    }
     return (
         <div className="">
             <h1 className="">My Favorites</h1>
@@ -20,7 +25,7 @@ const Favorites = () => {
 
                         <div className="">
                             <button className="" onClick={()=>navigate(`/movies/${movie.imdbID}`)}>View Details</button>
-                            <button className="" onClick={()=> dispatch(removeFavorite(movie.imdbID))}>Remove from favorites</button>
+                            <button className="" onClick={()=> handleRemove(movie.imdbID, movie.Title) }>Remove from favorites</button>
                         </div>
                     </div>
 
