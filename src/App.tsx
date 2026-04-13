@@ -5,12 +5,17 @@ import Search from "./Pages/Search"
 import MovieDetails from "./Pages/MovieDetails"
 import Favorites from "./Pages/Favorites"
 import PageNotFound from "./Pages/PageNotFound"
+import PublicRoute from "./components/PublicRoute"
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login/>}/>
+        <Route element = {<PublicRoute/>}>
+          <Route path="/login" element={<Login/>}/>
+        </Route>
+
+        
         <Route element={<ProtectedRoute/>}>
           <Route path="/" element={<Navigate to="/search" replace/>}/>
           <Route path="/search" element={<Search/>}/>
