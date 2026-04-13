@@ -5,6 +5,7 @@ import { Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addFavorite, removeFavorite } from "../store/favoriteSlice";
+import toast from "react-hot-toast";
 
 const apiKey = import.meta.env.VITE_API_URL
 
@@ -23,6 +24,7 @@ const MovieDetails = () => {
 
         if(isFavorite){
             dispatch(removeFavorite(movie.imdbID))
+            toast.error(`"${movie.Title}" removed from favorites`)
         }else {
             dispatch(addFavorite({
                 imdbID: movie.imdbID,
@@ -31,6 +33,8 @@ const MovieDetails = () => {
                 Poster: movie.Poster,
                 Type: movie.Type
             }))
+
+            toast.success(`"${movie.Title}" added to favorites!`)
         }
     }
     
