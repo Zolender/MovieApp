@@ -24,7 +24,7 @@ const MovieDetails = () => {
 
         if(isFavorite){
             dispatch(removeFavorite(movie.imdbID))
-            toast.error(`"${movie.Title}" removed from favorites`)
+            toast.error(`"${movie.Title}" removed from favorites`, {duration: 3000})
         }else {
             dispatch(addFavorite({
                 imdbID: movie.imdbID,
@@ -34,7 +34,7 @@ const MovieDetails = () => {
                 Type: movie.Type
             }))
 
-            toast.success(`"${movie.Title}" added to favorites!`)
+            toast.success(`"${movie.Title}" added to favorites!`, {duration: 3000})
         }
     }
     
