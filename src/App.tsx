@@ -6,10 +6,13 @@ import MovieDetails from "./Pages/MovieDetails"
 import Favorites from "./Pages/Favorites"
 import PageNotFound from "./Pages/PageNotFound"
 import PublicRoute from "./components/PublicRoute"
+import { Toaster } from "react-hot-toast"
 function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="bottom-right"/>
+
       <Routes>
         <Route element = {<PublicRoute/>}>
           <Route path="/login" element={<Login/>}/>

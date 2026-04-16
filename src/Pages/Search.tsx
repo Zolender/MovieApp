@@ -27,8 +27,17 @@ const Search = () => {
                 <button onClick={(e)=>handleSubmit(e)} className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">{isLoading? "Searching...": "Search"}</button>
             </form>
             {error && <p className="text-red-400">Error: {error.message}</p>}
-            {/* this would be specific for omdbapi site which return .Response === "False" when the fetch goes well but the needed movie isn't found in their db */}
+            {/* this is specific for omdbapi site which return .Response === "False" when the fetch goes well but the needed movie isn't found in their db */}
             {data?.Response=== "False" && <p className="text-red-400">{data.Error}</p>}
+            
+            {!searchUrl && !isLoading && (
+                <div className="">
+                    <p className="">Discover your next favorite movie</p>
+                    <p className="">Start by searching for a title above</p>
+                </div>
+            )}
+            
+            
             {data?.Response === "True" && (
                 <div className="mt-8">
                     <p className="text-xl">{data.totalResults} results found</p>
