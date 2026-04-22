@@ -6,7 +6,7 @@ import Layout from "./Layout";
 const ProtectedRoute = () => {
     const currentUser = useSelector((state: RootState)=> state.auth.currentUser)
 
-    if(currentUser){
+    if(!currentUser){
         return <Navigate to="/login" replace/>
     }
     return (
