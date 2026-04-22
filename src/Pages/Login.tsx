@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../store/authSlice";
+import { RootState } from "../store/store";
 
 const Login = () => {
 
@@ -10,6 +11,14 @@ const Login = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const currentUser = useSelector((state: RootState)=> state.auth.currentUser)
+
+    useEffect(()=>{
+
+        if(currentUser)navigate("/search", {replace: true})
+
+    }, [currentUser, navigate])
 
     const validate = (): boolean =>{
         if(!formData.username || !formData.password){
@@ -37,7 +46,6 @@ const Login = () => {
         if(!validate())return
 
         dispatch(loginUser({...formData}))
-        navigate("/search", {replace: true})
 
     }
 
