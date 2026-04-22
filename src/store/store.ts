@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice"
 import favoriteReducer from "./favoriteSlice"
+import recentReducer from "./recentSlice"
+import searchReducer from "./searchSlice"
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        favorites: favoriteReducer
+        favorites: favoriteReducer,
+        recent: recentReducer,
+        search : searchReducer
     }
 })
 
