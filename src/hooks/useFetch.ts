@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function useFetch<T>(url: string){
     const [data, setData] = useState<T | undefined>(undefined)
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(()=>{
