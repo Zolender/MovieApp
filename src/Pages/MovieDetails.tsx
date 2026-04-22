@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addFavorite, removeFavorite } from "../store/favoriteSlice";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
+import { addToRecent } from "../store/recentSlice";
 
 const apiKey = import.meta.env.VITE_API_URL
 
@@ -19,6 +21,18 @@ const MovieDetails = () => {
 
     const isFavorite = favorites.some((fav)=> fav.imdbID === id)
     
+    useEffect(()=>{
+        if(movie){
+            dispatch(addToRecent({
+                imdbID: movie.imdbID,
+                Title: movie.Title,
+                Year: movie.Year,
+                Poster: movie.Poster,
+                Type: movie.Type
+            }))
+        }
+    },[movie, dispatch])
+
     const handleFavorite = ()=>{
         if(!movie)return
 
