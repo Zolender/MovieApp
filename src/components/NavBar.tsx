@@ -38,16 +38,13 @@ const NavBar = () => {
 
                 {/* Left — Logo + username */}
                 <div className="flex items-center gap-3">
-                    <Film
-                        size={22}
-                        style={{ color: "var(--accent)" }}
-                    />
+                    <Film size={20} style={{ color: "var(--accent)" }} />
                     <span
-                        className="text-lg"
                         style={{
                             fontFamily: "'Playfair Display', serif",
                             color: "var(--text-primary)",
                             fontWeight: 600,
+                            fontSize: "1.1rem",
                             letterSpacing: "0.01em"
                         }}
                     >
@@ -62,55 +59,36 @@ const NavBar = () => {
                 </div>
 
                 {/* Right — Nav links + actions */}
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-5">
 
                     {/* Links */}
-                    <div className="flex items-center gap-5">
-                        {[
-                            { label: "Search", path: "/search" },
-                            { label: "Favorites", path: "/favorites" },
-                        ].map(({ label, path }) => (
-                            <Link
-                                key={path}
-                                to={path}
-                                className="relative text-sm font-medium transition-colors duration-200"
-                                style={{
-                                    color: isActive(path)
-                                        ? "var(--accent)"
-                                        : "var(--text-secondary)",
-                                }}
-                            >
-                                {label}
-                                {/* Animated underline for active link */}
-                                {isActive(path) && (
-                                    <motion.div
-                                        layoutId="navbar-underline"
-                                        className="absolute -bottom-1 left-0 right-0 h-px"
-                                        style={{ backgroundColor: "var(--accent)" }}
-                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                    />
-                                )}
-                            </Link>
-                        ))}
-                    </div>
+                    {[
+                        { label: "Search", path: "/search" },
+                        { label: "Favorites", path: "/favorites" },
+                    ].map(({ label, path }) => (
+                        <Link
+                            key={path}
+                            to={path}
+                            className="relative text-sm font-medium"
+                            style={{
+                                color: isActive(path) ? "var(--accent)" : "var(--text-secondary)",
+                                transition: "color 0.2s ease"
+                            }}
+                        >
+                            {label}
+                            {isActive(path) && (
+                                <motion.div
+                                    layoutId="navbar-underline"
+                                    className="absolute -bottom-1 left-0 right-0 h-px"
+                                    style={{ backgroundColor: "var(--accent)" }}
+                                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                />
+                            )}
+                        </Link>
+                    ))}
 
                     {/* Divider */}
-                    <div
-                        className="h-4 w-px"
-                        style={{ backgroundColor: "var(--card-border)" }}
-                    />
-
-                    {/* Theme toggle */}
-                    <motion.button
-                        onClick={() => dispatch(toggleTheme())}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="flex items-center justify-center"
-                        style={{ color: "var(--text-secondary)", background: "none", border: "none", cursor: "pointer" }}
-                        title="Toggle theme"
-                    >
-                        {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
-                    </motion.button>
+                    <div className="h-4 w-px" style={{ backgroundColor: "var(--input-border)" }} />
 
                     {/* Logout */}
                     <motion.button
@@ -120,14 +98,25 @@ const NavBar = () => {
                         className="flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-lg"
                         style={{
                             color: "var(--text-secondary)",
-                            border: "1px solid var(--card-border)",
+                            border: "1px solid var(--input-border)",
                             background: "none",
                             cursor: "pointer",
-                            transition: "color 0.2s ease, border-color 0.2s ease"
                         }}
                     >
                         <LogOut size={15} />
                         <span className="hidden sm:block">Logout</span>
+                    </motion.button>
+
+                    {/* Theme toggle — after logout */}
+                    <motion.button
+                        onClick={() => dispatch(toggleTheme())}
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="flex items-center justify-center"
+                        style={{ color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer" }}
+                        title="Toggle theme"
+                    >
+                        {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
                     </motion.button>
 
                 </div>

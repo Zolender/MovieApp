@@ -4,9 +4,9 @@ import NavBar from "./NavBar";
 const Layout = () => {
     return (
         <>
-            <NavBar/>
-            <main className="mt-20">
-                <Outlet/>
+            <NavBar />
+            <main className="pt-20">
+                <Outlet />
             </main>
         </>
     );
