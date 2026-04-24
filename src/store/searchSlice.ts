@@ -23,9 +23,6 @@ const searchSlice = createSlice({
     reducers: {
         setQuery: (state, action:PayloadAction<string>)=>{
             state.query = action.payload
-            state.page = 1
-            state.results = []
-            state.totalResults = "0"
         },
         setResults: (state, action: PayloadAction<{results: MovieSearchResult[], total: string}>)=>{
             state.results = action.payload.results
@@ -47,7 +44,7 @@ const searchSlice = createSlice({
             state.query = "",
             state.results= [],
             state.totalResults= "0",
-            state.page = 0
+            state.page = 1
         }
     }
 })

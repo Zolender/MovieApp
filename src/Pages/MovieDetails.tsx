@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useEffect } from "react";
 import { addToRecent } from "../store/recentSlice";
 
-const apiKey = import.meta.env.VITE_API_URL
+const apiKey = import.meta.env.VITE_API_KEY
 
 const MovieDetails = () => {
     const {id}= useParams();

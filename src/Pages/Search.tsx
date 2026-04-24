@@ -8,9 +8,9 @@ import { setQuery, setResults, setFeatured, appendResults, incrementPage } from 
 import { Clock } from "lucide-react";
 import SkeletonCard from "../components/SkeletonCard";
 
-const apiKey = import.meta.env.VITE_API_URL
+const apiKey = import.meta.env.VITE_API_KEY
 
-const featuredTerms = ["marvel", 'batman', 'star wars', "harry potter", "james bond", "lord of the rings", "spiderman", "daredevil", "fast and furious", "chuck"]
+const FEATURED_TERMS = ["marvel", 'batman', 'star wars', "harry potter", "james bond", "lord of the rings", "spiderman", "daredevil", "fast and furious", "chuck"]
 
 const Search = () => {
 
@@ -27,7 +27,7 @@ const Search = () => {
 
     useEffect(()=>{
         if(featured.length === 0){
-            const randomTerm = featuredTerms[Math.floor(Math.random() * featuredTerms.length)]
+            const randomTerm = FEATURED_TERMS[Math.floor(Math.random() * FEATURED_TERMS.length)]
             setFeaturedUrl(`https://www.omdbapi.com/?s=${randomTerm}&apikey=${apiKey}`)
         }
     },[])
@@ -89,32 +89,32 @@ const Search = () => {
             
             {!query && (
                 <>
-                    {recentMovies.length > 0 && results.length === 0 && (
-                <div className="w-full mt-8">
-                    <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                        <Clock size={22}/>
-                        Recently Viewed
-                    </h2>
-                    <div className="flex gap-4 overflow-x-auto">
-                        {recentMovies.map(movie=>(
-                            <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer shrink-0 w-32">
-                                {movie.Poster !== "N/A" ? (
-                                    <img
-                                        className="w-32 h-48 object-cover rounded"
-                                        src={movie.Poster}
-                                        alt={movie.Title}
-                                    />
-                                    ) : (
-                                    <div className="w-32 h-48 bg-gray-300 flex items-center justify-center rounded">
-                                        N/A
-                                    </div>
-                                    )}
-                                    <p className="text-sm mt-1 truncate">{movie.Title}</p>
+                    {recentMovies.length > 0  && (
+                        <div className="w-full mt-8">
+                            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                <Clock size={22}/>
+                                Recently Viewed
+                            </h2>
+                            <div className="flex gap-4 overflow-x-auto">
+                                {recentMovies.map(movie=>(
+                                    <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer shrink-0 w-32">
+                                        {movie.Poster !== "N/A" ? (
+                                            <img
+                                                className="w-32 h-48 object-cover rounded"
+                                                src={movie.Poster}
+                                                alt={movie.Title}
+                                            />
+                                            ) : (
+                                            <div className="w-32 h-48 bg-gray-300 flex items-center justify-center rounded">
+                                                N/A
+                                            </div>
+                                            )}
+                                            <p className="text-sm mt-1 truncate">{movie.Title}</p>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                            </div>
+                        )}
             
             
                 {/* featured movies */}
