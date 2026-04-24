@@ -118,11 +118,14 @@ const Search = () => {
                 </>
             )}            
             
-            {results.length > 0 && (
-                <div className="mt-8 w-full">
-                    <p className="text-xl">{totalResults} results found</p>
+            
+            {/* featured movies */}
+            <div className="w-full mt-8">
+                <h2 className="text-xl font-bold mb-4">Featured Movies</h2>
+                {featuredLoading && renderSkeletons()}
+                {featured.length > 0 && ( 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {results.map((movie)=>(
+                        {featured.map((movie)=>(
                             <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer">
                                 {movie.Poster !== "N/A" ? (
                                     <img className="w-full h-64 object-cover" src={movie.Poster} alt={movie.Title}/>
@@ -134,23 +137,32 @@ const Search = () => {
                             </div>
                         ))}
                     </div>
-                </div>
-            )}
+                )}
+            </div>
+            
+            
 
-            {featuredLoading && renderSkeletons()}
-            {featured.length > 0 && ( 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {featured.map((movie)=>(
-                        <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer">
-                            {movie.Poster !== "N/A" ? (
-                                <img className="w-full h-64 object-cover" src={movie.Poster} alt={movie.Title}/>
-                            ) : (
-                                <div className="h-64 flex items-center justify-center bg-gray-300 text-xl font-bold">No Image Available</div>
-                            )}
-                            <p className="">{movie.Title}</p>
-                            <p className="">{movie.Year}</p>
+            {query && (
+                <div className="mt-8 w-full">
+                    {isLoading && page === 1 && renderSkeletons()}
+                    {results.length > 0 && (
+                        <div className="mt-8 w-full">
+                            <p className="text-xl">{totalResults} results found</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {results.map((movie)=>(
+                                    <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer">
+                                        {movie.Poster !== "N/A" ? (
+                                            <img className="w-full h-64 object-cover" src={movie.Poster} alt={movie.Title}/>
+                                        ) : (
+                                            <div className="h-64 flex items-center justify-center bg-gray-300 text-xl font-bold">No Image Available</div>
+                                        )}
+                                        <p className="">{movie.Title}</p>
+                                        <p className="">{movie.Year}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
         </div>
