@@ -17,12 +17,12 @@ const Search = () => {
     const {data, isLoading, error} = useFetch<SearchResponse>(searchUrl)
 
     const {query, results, totalResults} = useSelector((state: RootState)=> state.search)
-    const recentMovies = useSelector((state: RootState)=> state.recent)
+    const recentMovies = useSelector((state: RootState)=> state.recent.movies)
 
     
     useEffect(()=>{
         if(data?.Response === "True"){
-            dispatch(setResults({results: data.Search, total:totalResults}))
+            dispatch(setResults({results: data.Search, total:data.totalResults}))
         }
     },[data, dispatch])
 
@@ -60,7 +60,7 @@ const Search = () => {
                     </h2>
                     <div className="flex gap-4 overflow-x-auto">
                         {recentMovies.map(movie=>(
-                            <div key={movie.imdbID} onClick={()=> navigate(`/movies/`)} className="hover:cursor-pointer shrink-0 w-32">
+                            <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer shrink-0 w-32">
                                 {movie.Poster !== "N/A" ? (
                                     <img
                                         className="w-32 h-48 object-cover rounded"
