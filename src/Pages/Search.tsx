@@ -91,7 +91,7 @@ const Search = () => {
                 <>
                     {recentMovies.length > 0 && results.length === 0 && (
                 <div className="w-full mt-8">
-                    <h2 className="text-xl font-bold mb-4">
+                    <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                         <Clock size={22}/>
                         Recently Viewed
                     </h2>
@@ -115,30 +115,30 @@ const Search = () => {
                         </div>
                     </div>
                 )}
-                </>
-            )}            
             
             
-            {/* featured movies */}
-            <div className="w-full mt-8">
-                <h2 className="text-xl font-bold mb-4">Featured Movies</h2>
-                {featuredLoading && renderSkeletons()}
-                {featured.length > 0 && ( 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {featured.map((movie)=>(
-                            <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer">
-                                {movie.Poster !== "N/A" ? (
-                                    <img className="w-full h-64 object-cover" src={movie.Poster} alt={movie.Title}/>
-                                ) : (
-                                    <div className="h-64 flex items-center justify-center bg-gray-300 text-xl font-bold">No Image Available</div>
-                                )}
-                                <p className="">{movie.Title}</p>
-                                <p className="">{movie.Year}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+                {/* featured movies */}
+                <div className="w-full mt-8">
+                    <h2 className="text-xl font-bold mb-4">Featured Movies</h2>
+                    {featuredLoading && renderSkeletons()}
+                    {featured.length > 0 && ( 
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {featured.map((movie)=>(
+                                <div key={movie.imdbID} onClick={()=> navigate(`/movies/${movie.imdbID}`)} className="hover:cursor-pointer">
+                                    {movie.Poster !== "N/A" ? (
+                                        <img className="w-full h-64 object-cover" src={movie.Poster} alt={movie.Title}/>
+                                    ) : (
+                                        <div className="h-64 flex items-center justify-center bg-gray-300 text-xl font-bold">No Image Available</div>
+                                    )}
+                                    <p className="">{movie.Title}</p>
+                                    <p className="">{movie.Year}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </>
+        )} 
             
             
 
@@ -161,6 +161,14 @@ const Search = () => {
                                     </div>
                                 ))}
                             </div>
+                            {/* load more section  */}
+                            {hasMore && (
+                                <div className="flex justify-center mt-8">
+                                    <button onClick={handleLoadMore} disabled={isLoading} className="bg-blue-500 hover:bg-blue-700 disabled:opacity-50 text-white font-bold py-2 px-8 rounded">{isLoading? "Loading..." : "Load More"}</button>
+                                </div>
+                            )}
+
+                            {isLoading && page > 1 && renderSkeletons()}
                         </div>
                     )}
                 </div>
