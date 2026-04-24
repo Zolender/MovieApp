@@ -1,13 +1,10 @@
 import { createSlice , PayloadAction} from "@reduxjs/toolkit";
-import { MovieSearchResult } from "../types"
+import { FavoriteState, MovieSearchResult } from "../types"
 
-type FavoriteState= {
-    movies: MovieSearchResult[]
-}
 
 const storedFavorites = localStorage.getItem("favorites");
 
-const initialState: FavoriteState={
+const initialState: FavoriteState ={
     movies: storedFavorites? JSON.parse(storedFavorites): []
 }
 

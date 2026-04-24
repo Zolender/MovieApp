@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { MovieSearchResult } from "../types"
+import { MovieSearchResult, RecentState } from "../types"
 
-type RecentState = {
-    movies: MovieSearchResult[]
-}
 
 const storedRecent = localStorage.getItem("recentlyViewed")
 

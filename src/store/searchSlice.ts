@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction} from "@reduxjs/toolkit"
-import { MovieSearchResult } from "../types"
+import { MovieSearchResult, SearchState } from "../types"
 
-type SearchState = {
-    query: string
-    results: MovieSearchResult[]
-    totalResults: string
-    featured: MovieSearchResult[]
-    page: number
-}
+
 
 const initialState : SearchState = {
     query : "",

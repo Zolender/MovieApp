@@ -1,14 +1,8 @@
 
-import { Component, ErrorInfo, ReactNode } from "react"
+import { Component } from "react"
+import { Props, State } from "../types";
 
-type Props = {
-    children: ReactNode
-}
 
-type State ={
-    hasError: boolean
-    message: string
-}
 
 
 class ErrorBoundary extends Component<Props, State>{

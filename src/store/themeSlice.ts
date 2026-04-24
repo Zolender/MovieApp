@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-type Theme = "light" | "dark"
-
-type ThemeState = {
-    theme: Theme
-}
+import { ThemeState } from "../types"
 
 const storedTheme = localStorage.getItem("theme")
 
