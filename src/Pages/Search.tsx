@@ -67,7 +67,16 @@ const Search = () => {
 
     const hasMore = results.length < parseInt(totalResults)
 
-    
+    const renderSkeletons = () => (
+        <div className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 w-full">
+            {Array.from({length: 8}).map((_, i)=>(
+            ))}
+        </div>
+    )
+
+    return (
+        <div className="container"></div>
+    )
 
 
     const handleSubmit= (e: React.MouseEvent<HTMLButtonElement>)=>{
