@@ -4,10 +4,12 @@ import useFetch from "../hooks/useFetch";
 import { SearchResponse } from "../types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { setQuery, setResults } from "../store/searchSlice";
+import { setQuery, setResults, setFeatured, appendResults, incrementPage } from "../store/searchSlice";
 import { Clock } from "lucide-react";
 
 const apiKey = import.meta.env.VITE_API_URL
+
+const featuredTerms = ["marvel", 'batman', 'star wars', "harry potter", "james bond", "lord of the rings", "spiderman", "daredevil", "fast and furious", "chuck"]
 
 const Search = () => {
 
@@ -16,15 +18,56 @@ const Search = () => {
     const [searchUrl, setSearchUrl] = useState("")
     const {data, isLoading, error} = useFetch<SearchResponse>(searchUrl)
 
-    const {query, results, totalResults} = useSelector((state: RootState)=> state.search)
+    const {query, results, totalResults, featured, page} = useSelector((state: RootState)=> state.search)
     const recentMovies = useSelector((state: RootState)=> state.recent.movies)
+
+    const [featuredUrl, setFeaturedUrl] = useState("")
+    const {data: featuredData, isLoading: featuredLoading} = useFetch<SearchResponse>(featuredUrl)
+
+    useEffect(()=>{
+        if(featured.length === 0){
+            const randomTerm = featuredTerms[Math.floor(Math.random() * featuredTerms.length)]
+            setFeaturedUrl(`https://www.omdbapi.com/?s=${randomTerm}&apikey=${apiKey}`)
+        }
+    },[])
+
+    
+    useEffect(()=>{
+        if(featuredData?.Response === "True"){
+            dispatch(setFeatured(featuredData.Search))
+        }
+    },[featuredData, dispatch])
+
+    //trigger fetching after 600ms 
+    useEffect(()=>{
+        if(!query.trim())return
+        const timer= setTimeout(()=>{
+            setSearchUrl(`https://www.omdbapi.com/?s=${encodeURIComponent(query)}&page=1&apikey=${apiKey}`)
+        }, 600)
+
+        return ()=> clearTimeout(timer)
+    }, [query])
 
     
     useEffect(()=>{
         if(data?.Response === "True"){
-            dispatch(setResults({results: data.Search, total:data.totalResults}))
+            if(page === 1){
+                dispatch(setResults({results: data.Search, total: data.totalResults}))
+            }else{
+                dispatch(appendResults({results: data.Search, total: data.totalResults}))
+            }
         }
-    },[data, dispatch])
+    }, [data, dispatch])
+
+    const handleLoadMore = ()=>{
+        const nextPage = page + 1
+        dispatch(incrementPage())
+        setSearchUrl(`https://www.omdbapi.com/?s=${encodeURIComponent(query)}&page=${nextPage}&apikey=${apiKey}`)
+    }
+
+    const hasMore = results.length < parseInt(totalResults)
+
+    
 
 
     const handleSubmit= (e: React.MouseEvent<HTMLButtonElement>)=>{
