@@ -7,27 +7,30 @@ import Favorites from "./Pages/Favorites"
 import PageNotFound from "./Pages/PageNotFound"
 import PublicRoute from "./components/PublicRoute"
 import { Toaster } from "react-hot-toast"
+import ErrorBoundary from "./components/errorBoundary"
 function App() {
 
   return (
     <BrowserRouter>
       <Toaster position="bottom-right"/>
 
-      <Routes>
-        <Route element = {<PublicRoute/>}>
-          <Route path="/login" element={<Login/>}/>
-        </Route>
+      <ErrorBoundary>
+        <Routes>
+          <Route element = {<PublicRoute/>}>
+            <Route path="/login" element={<Login/>}/>
+          </Route>
 
-        
-        <Route element={<ProtectedRoute/>}>
-          <Route path="/" element={<Navigate to="/search" replace/>}/>
-          <Route path="/search" element={<Search/>}/>
-          <Route path="/movies/:id" element={<MovieDetails/>}/>
-          <Route path="/favorites" element={<Favorites/>}/>
-        </Route>
+          
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/" element={<Navigate to="/search" replace/>}/>
+            <Route path="/search" element={<Search/>}/>
+            <Route path="/movies/:id" element={<MovieDetails/>}/>
+            <Route path="/favorites" element={<Favorites/>}/>
+          </Route>
 
-        <Route path="*" element={<PageNotFound/>}/>
-      </Routes>
+          <Route path="*" element={<PageNotFound/>}/>
+        </Routes>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }
