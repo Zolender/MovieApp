@@ -3,13 +3,15 @@ import authReducer from "./authSlice"
 import favoriteReducer from "./favoriteSlice"
 import recentReducer from "./recentSlice"
 import searchReducer from "./searchSlice"
+import themeReducer from "./themeSlice"
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
         favorites: favoriteReducer,
         recent: recentReducer,
-        search : searchReducer
+        search : searchReducer,
+        theme: themeReducer
     }
 })
 
