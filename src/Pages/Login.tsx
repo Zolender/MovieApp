@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../store/authSlice";
-import { Film } from "lucide-react";
 
 const Login = () => {
     const [formData, setFormData] = useState({ username: "", password: "" })
@@ -50,7 +49,7 @@ const Login = () => {
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-full max-w-sm"
+                className="w-full max-w-sm flex flex-col gap-2"
                 style={{
                     backgroundColor: "var(--surface)",
                     border: "1px solid var(--card-border)",
@@ -61,15 +60,7 @@ const Login = () => {
             >
                 {/* Logo */}
                 <div className="flex flex-col items-center gap-3 mb-8">
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
-                        className="flex items-center justify-center w-12 h-12 rounded-full"
-                        style={{ backgroundColor: "var(--accent)" }}
-                    >
-                        <Film size={22} color="#fff" />
-                    </motion.div>
+                    
                     <h1
                         style={{
                             fontFamily: "'Playfair Display', serif",
@@ -170,7 +161,7 @@ const Login = () => {
                         type="submit"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.97 }}
-                        className="w-full py-2.5 rounded-lg text-sm font-semibold mt-2"
+                        className="w-full h-10 rounded-md text-sm font-semibold mt-2"
                         style={{
                             backgroundColor: "var(--accent)",
                             color: "#fff",
