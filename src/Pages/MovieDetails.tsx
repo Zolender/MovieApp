@@ -64,29 +64,30 @@ const MovieDetails = () => {
 
     const stateClass = "min-h-[70vh] flex items-center justify-center text-zinc-400"
 
-    if (isLoading) return (
-        <div className={stateClass}>
-            <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="font-serif text-lg"
-            >
-                Loading...
-            </motion.div>
-        </div>
-    )
 
-    if (error) return (
-        <div className={stateClass}>
-            <p className="text-rose-400">Error: {error.message}</p>
-        </div>
-    )
+        if (isLoading || (!movie && !error)) return (
+            <div className={stateClass}>
+                <motion.div
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="font-serif text-lg"
+                >
+                    Loading...
+                </motion.div>
+            </div>
+        )
 
-    if (!movie) return (
-        <div className={stateClass}>
-            <p>Movie not found</p>
-        </div>
-    )
+        if (error) return (
+            <div className={stateClass}>
+                <p className="text-rose-400">Error: {error.message}</p>
+            </div>
+        )
+
+        if (!movie) return (
+            <div className={stateClass}>
+                <p>Movie not found</p>
+            </div>
+        )
 
     return (
         <motion.div
