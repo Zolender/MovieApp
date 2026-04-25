@@ -8,13 +8,11 @@ import PageNotFound from "./Pages/PageNotFound"
 import PublicRoute from "./components/PublicRoute"
 import { Toaster } from "react-hot-toast"
 import ErrorBoundary from "./components/errorBoundary"
-import { useSelector } from "react-redux"
-import { RootState } from "./store/store"
+
 function App() {
-  const theme = useSelector((state: RootState)=> state.theme.theme)
 
   return (
-    <div data-theme={theme} style={{minHeight : "100vh"}}>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <BrowserRouter>
         <Toaster position="bottom-right"/>
 

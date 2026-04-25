@@ -5,7 +5,7 @@ import useFetch from "../hooks/useFetch";
 import { SearchResponse } from "../types";
 import { RootState } from "../store/store";
 import { setQuery, setResults, setFeatured, appendResults, incrementPage } from "../store/searchSlice";
-import { Clock, Search as SearchIcon } from "lucide-react";
+import { Clock, FileVideoIcon, Search as SearchIcon } from "lucide-react";
 import SkeletonCard from "../components/SkeletonCard";
 import MovieCard from "../components/MovieCard";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +71,7 @@ const Search = () => {
     const hasMore = results.length < parseInt(totalResults)
 
     const renderSkeletons = () => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 mt-6 w-full">
             {Array.from({ length: 10 }).map((_, i) => (
                 <SkeletonCard key={i} />
             ))}
@@ -79,192 +79,151 @@ const Search = () => {
     )
 
     return (
-        <div className="min-h-screen" style={{ backgroundColor: "var(--bg-primary)" }}>
-            <div className="container mx-auto px-6 pt-28 pb-16">
+        <div className="space-y-15 pt-10">
+            {/* Search bar */}
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="flex items-center gap-3 w-full max-w-2xl mx-auto rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3 shadow-sm"
+            >
+                <SearchIcon size={16} className="text-zinc-400" />
+                <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => dispatch(setQuery(e.target.value))}
+                    placeholder="Search a movie, series..."
+                    className="w-full bg-transparent border-none outline-none text-sm text-zinc-100 placeholder-zinc-500"
+                />
+            </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: -12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    className="flex items-center gap-3 w-full max-w-lg mx-auto"
-                    style={{
-                        backgroundColor: "var(--surface)",
-                        border: "1px solid var(--input-border)",
-                        borderRadius: "0.75rem",
-                        padding: "0.625rem 1rem",
-                        boxShadow: "var(--card-shadow)",
-                    }}
-                >
-                    <SearchIcon size={16} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
-                    <input
-                        type="text"
-                        value={query}
-                        onChange={(e) => dispatch(setQuery(e.target.value))}
-                        placeholder="Search a movie, series..."
-                        style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            color: "var(--text-primary)",
-                            fontSize: "0.9rem",
-                            width: "100%",
-                        }}
-                    />
-                </motion.div>
+            {error && (
+                <p className="text-center text-sm text-rose-400">
+                    Error: {error.message}
+                </p>
+            )}
+            {data?.Response === "False" && (
+                <p className="text-center text-sm text-rose-400">
+                    {data.Error}
+                </p>
+            )}
 
-                {error && (
-                    <p className="text-center mt-4 text-sm" style={{ color: "#E05A5A" }}>
-                        Error: {error.message}
-                    </p>
-                )}
-                {data?.Response === "False" && (
-                    <p className="text-center mt-4 text-sm" style={{ color: "#E05A5A" }}>
-                        {data.Error}
-                    </p>
-                )}
-
-                <AnimatePresence mode="wait">
-                    {!query && (
-                        <motion.div
-                            key="home"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            {recentMovies.length > 0 && (
-                                <div className="mt-12">
-                                    <div className="flex items-center gap-2 mb-5">
-                                        <Clock size={16} style={{ color: "var(--accent)" }} />
-                                        <h2 style={{ fontSize: "1rem", color: "var(--text-primary)" }}>
-                                            Recently Viewed
-                                        </h2>
-                                    </div>
-                                    <div className="flex gap-3 overflow-x-auto pb-3">
-                                        {recentMovies.map((movie, i) => (
-                                            <motion.div
-                                                key={movie.imdbID}
-                                                initial={{ opacity: 0, x: -16 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: i * 0.07, duration: 0.3 }}
-                                                onClick={() => navigate(`/movies/${movie.imdbID}`)}
-                                                className="flex-shrink-0 cursor-pointer"
-                                                style={{ width: "100px" }}
-                                                whileHover={{ y: -3, transition: { duration: 0.18 } }}
-                                            >
-                                                {movie.Poster !== "N/A" ? (
-                                                    <img
-                                                        src={movie.Poster}
-                                                        alt={movie.Title}
-                                                        className="w-full object-cover rounded-lg"
-                                                        style={{ height: "150px" }}
-                                                    />
-                                                ) : (
-                                                    <div
-                                                        className="w-full rounded-lg flex items-center justify-center"
-                                                        style={{ height: "150px", backgroundColor: "var(--bg-secondary)" }}
-                                                    >
-                                                        🎬
-                                                    </div>
-                                                )}
-                                                <p
-                                                    className="text-xs mt-1.5 truncate"
-                                                    style={{ color: "var(--text-secondary)" }}
-                                                >
-                                                    {movie.Title}
-                                                </p>
-                                            </motion.div>
-                                        ))}
-                                    </div>
+            <AnimatePresence mode="wait">
+                {!query && (
+                    <motion.div
+                        key="home"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-10"
+                    >
+                        {recentMovies.length > 0 && (
+                            <section className="space-y-4">
+                                <div className="flex items-center gap-2 text-lg font-semibold text-zinc-200">
+                                    <Clock size={16} className="text-amber-400" />
+                                    Recently Viewed
                                 </div>
-                            )}
+                                <div className="flex gap-4 overflow-x-auto pb-2">
+                                    {recentMovies.map((movie, i) => (
+                                        <motion.div
+                                            key={movie.imdbID}
+                                            initial={{ opacity: 0, x: -16 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: i * 0.07, duration: 0.3 }}
+                                            onClick={() => navigate(`/movies/${movie.imdbID}`)}
+                                            className="shrink-0 cursor-pointer w-24"
+                                            whileHover={{ y: -3, transition: { duration: 0.18 } }}
+                                        >
+                                            {movie.Poster !== "N/A" ? (
+                                                <img
+                                                    src={movie.Poster}
+                                                    alt={movie.Title}
+                                                    className="w-full h-36 object-cover rounded-lg"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-36 rounded-lg flex items-center justify-center bg-zinc-800">
+                                                    🎬
+                                                </div>
+                                            )}
+                                            <p className="text-xs mt-2 truncate text-zinc-400">
+                                                {movie.Title}
+                                            </p>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
 
-                            <div className={recentMovies.length > 0 ? "mt-10" : "mt-12"}>
-                                <h2 className="mb-5" style={{ fontSize: "1rem", color: "var(--text-primary)" }}>
-                                    🎬 Featured
-                                </h2>
-                                {featuredLoading && renderSkeletons()}
-                                {featured.length > 0 && (
-                                    <motion.div
-                                        variants={gridVariants}
-                                        initial="hidden"
-                                        animate="visible"
-                                        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
-                                    >
-                                        {featured.map((movie) => (
-                                            <MovieCard key={movie.imdbID} movie={movie} />
-                                        ))}
-                                    </motion.div>
+                        <section className="space-y-4">
+                            <h2 className="text-lg font-semibold text-zinc-200 flex gap-2 items-center">
+                                <FileVideoIcon size={16} className="text-amber-400" />
+                                Featured</h2>
+                            {featuredLoading && renderSkeletons()}
+                            {featured.length > 0 && (
+                                <motion.div
+                                    variants={gridVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5"
+                                >
+                                    {featured.map((movie) => (
+                                        <MovieCard key={movie.imdbID} movie={movie} />
+                                    ))}
+                                </motion.div>
+                            )}
+                        </section>
+                    </motion.div>
+                )}
+
+                {query && (
+                    <motion.div
+                        key="results"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-6"
+                    >
+                        {isLoading && page === 1 && renderSkeletons()}
+
+                        {results.length > 0 && (
+                            <>
+                                <p className="text-sm text-zinc-400">
+                                    {totalResults} results for{" "}
+                                    <span className="text-amber-400">"{query}"</span>
+                                </p>
+                                <motion.div
+                                    variants={gridVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5"
+                                >
+                                    {results.map((movie) => (
+                                        <MovieCard key={movie.imdbID} movie={movie} />
+                                    ))}
+                                </motion.div>
+
+                                {hasMore && (
+                                    <div className="flex justify-center pt-4">
+                                        <motion.button
+                                            onClick={handleLoadMore}
+                                            disabled={isLoading}
+                                            whileHover={{ scale: 1.04 }}
+                                            whileTap={{ scale: 0.96 }}
+                                            className="px-8 py-2.5 rounded-lg text-sm font-semibold border border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-zinc-950 transition disabled:opacity-50"
+                                        >
+                                            {isLoading ? "Loading..." : "Load More"}
+                                        </motion.button>
+                                    </div>
                                 )}
-                            </div>
-                        </motion.div>
-                    )}
 
-                    {query && (
-                        <motion.div
-                            key="results"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="mt-8"
-                        >
-                            {isLoading && page === 1 && renderSkeletons()}
-
-                            {results.length > 0 && (
-                                <>
-                                    <p className="mb-5 text-sm" style={{ color: "var(--text-muted)" }}>
-                                        {totalResults} results for{" "}
-                                        <span style={{ color: "var(--accent)" }}>"{query}"</span>
-                                    </p>
-                                    <motion.div
-                                        variants={gridVariants}
-                                        initial="hidden"
-                                        animate="visible"
-                                        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
-                                    >
-                                        {results.map((movie) => (
-                                            <MovieCard key={movie.imdbID} movie={movie} />
-                                        ))}
-                                    </motion.div>
-
-                                    {hasMore && (
-                                        <div className="flex justify-center mt-12">
-                                            <motion.button
-                                                onClick={handleLoadMore}
-                                                disabled={isLoading}
-                                                whileHover={{ scale: 1.04 }}
-                                                whileTap={{ scale: 0.96 }}
-                                                className="px-8 py-2.5 rounded-lg text-sm font-semibold"
-                                                style={{
-                                                    backgroundColor: "transparent",
-                                                    border: "1px solid var(--accent)",
-                                                    color: "var(--accent)",
-                                                    cursor: isLoading ? "not-allowed" : "pointer",
-                                                    opacity: isLoading ? 0.5 : 1,
-                                                    transition: "background-color 0.2s ease, color 0.2s ease",
-                                                }}
-                                                onMouseEnter={e => {
-                                                    e.currentTarget.style.backgroundColor = "var(--accent)"
-                                                    e.currentTarget.style.color = "#fff"
-                                                }}
-                                                onMouseLeave={e => {
-                                                    e.currentTarget.style.backgroundColor = "transparent"
-                                                    e.currentTarget.style.color = "var(--accent)"
-                                                }}
-                                            >
-                                                {isLoading ? "Loading..." : "Load More"}
-                                            </motion.button>
-                                        </div>
-                                    )}
-
-                                    {isLoading && page > 1 && renderSkeletons()}
-                                </>
-                            )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+                                {isLoading && page > 1 && renderSkeletons()}
+                            </>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
