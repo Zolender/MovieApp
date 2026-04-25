@@ -52,45 +52,50 @@ const MovieDetails = () => {
         }
     }
 
-    // ── Loading state
+    const stateStyle: React.CSSProperties = {
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "var(--bg-primary)",
+    }
+
     if (isLoading) return (
-        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--bg-primary)" }}>
+        <div style={stateStyle}>
             <motion.div
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
-                style={{ color: "var(--text-muted)", fontFamily: "'Playfair Display', serif", fontSize: "1.2rem" }}
+                style={{ color: "var(--text-muted)", fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}
             >
                 Loading...
             </motion.div>
         </div>
     )
 
-    // ── Error state
     if (error) return (
-        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--bg-primary)" }}>
+        <div style={stateStyle}>
             <p style={{ color: "#E05A5A" }}>Error: {error.message}</p>
         </div>
     )
 
     if (!movie) return (
-        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--bg-primary)" }}>
+        <div style={stateStyle}>
             <p style={{ color: "var(--text-muted)" }}>Movie not found</p>
         </div>
     )
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "var(--bg-primary)" }}>
-            <div className="container mx-auto px-6 py-10 max-w-5xl">
+            <div className="container mx-auto px-6 pt-28 pb-16 max-w-5xl">
 
-                {/* Back button */}
                 <motion.button
-                    initial={{ opacity: 0, x: -12 }}
+                    initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3 }}
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-sm font-medium mb-8"
+                    className="flex items-center gap-2 text-sm font-medium mb-10"
                     style={{
-                        color: "var(--text-secondary)",
+                        color: "var(--text-muted)",
                         background: "none",
                         border: "none",
                         cursor: "pointer",
@@ -98,20 +103,18 @@ const MovieDetails = () => {
                     }}
                     whileHover={{ x: -3 }}
                 >
-                    <ArrowLeft size={16} />
+                    <ArrowLeft size={15} />
                     Back
                 </motion.button>
 
-                {/* Main layout — poster left, info right */}
                 <div className="flex flex-col md:flex-row gap-10">
 
-                    {/* Poster */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
+                        initial={{ opacity: 0, x: -24 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="shrink-0"
-                        style={{ width: "260px", alignSelf: "flex-start" }}
+                        className="shrink-0 w-full md:w-56"
+                        style={{ alignSelf: "flex-start" }}
                     >
                         {movie.Poster !== "N/A" ? (
                             <img
@@ -135,29 +138,25 @@ const MovieDetails = () => {
                         )}
                     </motion.div>
 
-                    {/* Info */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }}
+                        initial={{ opacity: 0, x: 24 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-                        className="flex flex-col gap-5 flex-1"
+                        className="flex flex-col gap-6 flex-1"
                     >
-                        {/* Title */}
                         <div>
                             <h1
                                 style={{
                                     fontFamily: "'Playfair Display', serif",
                                     color: "var(--text-primary)",
-                                    fontSize: "2rem",
+                                    fontSize: "1.85rem",
                                     lineHeight: 1.2,
-                                    marginBottom: "0.5rem"
+                                    marginBottom: "0.75rem",
                                 }}
                             >
                                 {movie.Title}
                             </h1>
-
-                            {/* Genre pills */}
-                            <div className="flex flex-wrap gap-2 mt-2">
+                            <div className="flex flex-wrap gap-2">
                                 {movie.Genre?.split(", ").map((g) => (
                                     <span
                                         key={g}
@@ -174,73 +173,77 @@ const MovieDetails = () => {
                             </div>
                         </div>
 
-                        {/* Meta row */}
-                        <div className="flex flex-wrap items-center gap-4">
+                        <div className="flex flex-wrap items-center gap-5">
                             <div className="flex items-center gap-1.5">
-                                <Star size={15} style={{ color: "var(--accent)" }} />
+                                <Star size={14} style={{ color: "var(--accent)" }} />
                                 <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
                                     {movie.imdbRating}
                                 </span>
                                 <span className="text-xs" style={{ color: "var(--text-muted)" }}>/10</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <Calendar size={14} style={{ color: "var(--text-muted)" }} />
+                                <Calendar size={13} style={{ color: "var(--text-muted)" }} />
                                 <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{movie.Year}</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <Clock size={14} style={{ color: "var(--text-muted)" }} />
+                                <Clock size={13} style={{ color: "var(--text-muted)" }} />
                                 <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{movie.Runtime}</span>
                             </div>
                         </div>
 
-                        {/* Divider */}
                         <div style={{ height: "1px", backgroundColor: "var(--card-border)" }} />
 
-                        {/* Plot */}
                         <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                             {movie.Plot}
                         </p>
 
-                        {/* Director & Actors */}
-                        <div className="flex flex-col gap-3">
-                            <div className="flex items-start gap-2">
-                                <User size={15} style={{ color: "var(--accent)", marginTop: "2px", flexShrink: 0 }} />
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-start gap-3">
+                                <User size={14} style={{ color: "var(--accent)", marginTop: "3px", flexShrink: 0 }} />
                                 <div>
-                                    <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Director</span>
-                                    <p className="text-sm mt-0.5" style={{ color: "var(--text-secondary)" }}>{movie.Director}</p>
+                                    <span
+                                        className="text-xs font-semibold uppercase tracking-widest block mb-0.5"
+                                        style={{ color: "var(--text-muted)" }}
+                                    >
+                                        Director
+                                    </span>
+                                    <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{movie.Director}</p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-2">
-                                <Users size={15} style={{ color: "var(--accent)", marginTop: "2px", flexShrink: 0 }} />
+                            <div className="flex items-start gap-3">
+                                <Users size={14} style={{ color: "var(--accent)", marginTop: "3px", flexShrink: 0 }} />
                                 <div>
-                                    <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Cast</span>
-                                    <p className="text-sm mt-0.5" style={{ color: "var(--text-secondary)" }}>{movie.Actors}</p>
+                                    <span
+                                        className="text-xs font-semibold uppercase tracking-widest block mb-0.5"
+                                        style={{ color: "var(--text-muted)" }}
+                                    >
+                                        Cast
+                                    </span>
+                                    <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{movie.Actors}</p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Favorite button */}
                         <motion.button
                             onClick={handleFavorite}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold w-fit mt-2"
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold w-fit"
                             style={{
                                 backgroundColor: isFavorite ? "var(--accent)" : "transparent",
                                 border: "1px solid var(--accent)",
                                 color: isFavorite ? "#fff" : "var(--accent)",
                                 cursor: "pointer",
-                                transition: "all 0.2s ease"
+                                transition: "all 0.2s ease",
                             }}
                         >
                             <Heart
-                                size={15}
+                                size={14}
                                 fill={isFavorite ? "#fff" : "transparent"}
                                 color={isFavorite ? "#fff" : "var(--accent)"}
                             />
                             {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
                         </motion.button>
-
                     </motion.div>
                 </div>
             </div>

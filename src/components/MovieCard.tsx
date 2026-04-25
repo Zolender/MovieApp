@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import { MovieSearchResult } from "../types";
 import { useNavigate } from "react-router-dom";
-
+ 
 type Props = {
     movie: MovieSearchResult
 }
-
+ 
 const MovieCard = ({ movie }: Props) => {
     const navigate = useNavigate()
-
+ 
     return (
         <motion.div
             onClick={() => navigate(`/movies/${movie.imdbID}`)}
             variants={{
-                hidden: { opacity: 0, y: 24 },
+                hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
             }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.32, ease: "easeOut" }}
+            whileHover={{ y: -4, transition: { duration: 0.18 } }}
             style={{
                 backgroundColor: "var(--card-bg)",
                 border: "1px solid var(--card-border)",
@@ -28,7 +28,6 @@ const MovieCard = ({ movie }: Props) => {
             }}
             className="flex flex-col"
         >
-            {/* Poster */}
             <div className="relative overflow-hidden" style={{ aspectRatio: "2/3" }}>
                 {movie.Poster !== "N/A" ? (
                     <img
@@ -42,13 +41,9 @@ const MovieCard = ({ movie }: Props) => {
                         style={{ backgroundColor: "var(--bg-secondary)" }}
                     >
                         <span className="text-3xl">🎬</span>
-                        <span className="text-xs" style={{ color: "var(--text-muted)" }}>
-                            No Poster
-                        </span>
+                        <span className="text-xs" style={{ color: "var(--text-muted)" }}>No Poster</span>
                     </div>
                 )}
-
-                {/* Type badge — top left */}
                 <span
                     className="absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full capitalize"
                     style={{
@@ -60,8 +55,8 @@ const MovieCard = ({ movie }: Props) => {
                     {movie.Type}
                 </span>
             </div>
-
-            <div className="p-3 flex flex-col gap-0.5">
+ 
+            <div className="p-3 flex flex-col gap-1">
                 <p
                     className="font-semibold text-sm leading-snug"
                     style={{
@@ -82,5 +77,5 @@ const MovieCard = ({ movie }: Props) => {
         </motion.div>
     )
 }
-
+ 
 export default MovieCard

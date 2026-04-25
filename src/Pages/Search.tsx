@@ -14,7 +14,6 @@ const apiKey = import.meta.env.VITE_API_KEY
 
 const FEATURED_TERMS = ["marvel", "batman", "star wars", "harry potter", "james bond", "lord of the rings", "spiderman", "daredevil", "fast and furious", "chuck"]
 
-// Stagger container — controls timing of child animations
 const gridVariants = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.07 } }
@@ -32,7 +31,6 @@ const Search = () => {
     const [featuredUrl, setFeaturedUrl] = useState("")
     const { data: featuredData, isLoading: featuredLoading } = useFetch<SearchResponse>(featuredUrl)
 
-    // Fetch featured on mount (only if not already stored)
     useEffect(() => {
         if (featured.length === 0) {
             const randomTerm = FEATURED_TERMS[Math.floor(Math.random() * FEATURED_TERMS.length)]
@@ -46,7 +44,6 @@ const Search = () => {
         }
     }, [featuredData, dispatch])
 
-    // Debounced search — fires 600ms after user stops typing
     useEffect(() => {
         if (!query.trim()) return
         const timer = setTimeout(() => {
@@ -82,27 +79,23 @@ const Search = () => {
     )
 
     return (
-        <div
-            className="min-h-screen"
-            style={{ backgroundColor: "var(--bg-primary)" }}
-        >
-            <div className="container mx-auto px-6 py-10">
+        <div className="min-h-screen" style={{ backgroundColor: "var(--bg-primary)" }}>
+            <div className="container mx-auto px-6 pt-28 pb-16">
 
-                {/* Search bar */}
                 <motion.div
-                    initial={{ opacity: 0, y: -16 }}
+                    initial={{ opacity: 0, y: -12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
-                    className="flex items-center gap-3 w-full max-w-xl mx-auto"
+                    className="flex items-center gap-3 w-full max-w-lg mx-auto"
                     style={{
                         backgroundColor: "var(--surface)",
                         border: "1px solid var(--input-border)",
                         borderRadius: "0.75rem",
-                        padding: "0.65rem 1rem",
+                        padding: "0.625rem 1rem",
                         boxShadow: "var(--card-shadow)",
                     }}
                 >
-                    <SearchIcon size={18} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
+                    <SearchIcon size={16} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
                     <input
                         type="text"
                         value={query}
@@ -113,13 +106,12 @@ const Search = () => {
                             border: "none",
                             outline: "none",
                             color: "var(--text-primary)",
-                            fontSize: "0.95rem",
+                            fontSize: "0.9rem",
                             width: "100%",
                         }}
                     />
                 </motion.div>
 
-                {/* Error messages */}
                 {error && (
                     <p className="text-center mt-4 text-sm" style={{ color: "#E05A5A" }}>
                         Error: {error.message}
@@ -131,7 +123,6 @@ const Search = () => {
                     </p>
                 )}
 
-                {/* ── Home view (no query) ─────────────────────── */}
                 <AnimatePresence mode="wait">
                     {!query && (
                         <motion.div
@@ -141,38 +132,37 @@ const Search = () => {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.3 }}
                         >
-                            {/* Recently Viewed */}
                             {recentMovies.length > 0 && (
-                                <div className="mt-10">
-                                    <h2
-                                        className="flex items-center gap-2 mb-4"
-                                        style={{ color: "var(--text-primary)" }}
-                                    >
-                                        <Clock size={20} style={{ color: "var(--accent)" }} />
-                                        Recently Viewed
-                                    </h2>
-                                    <div className="flex gap-3 overflow-x-auto pb-2">
+                                <div className="mt-12">
+                                    <div className="flex items-center gap-2 mb-5">
+                                        <Clock size={16} style={{ color: "var(--accent)" }} />
+                                        <h2 style={{ fontSize: "1rem", color: "var(--text-primary)" }}>
+                                            Recently Viewed
+                                        </h2>
+                                    </div>
+                                    <div className="flex gap-3 overflow-x-auto pb-3">
                                         {recentMovies.map((movie, i) => (
                                             <motion.div
                                                 key={movie.imdbID}
-                                                initial={{ opacity: 0, x: -20 }}
+                                                initial={{ opacity: 0, x: -16 }}
                                                 animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: i * 0.08, duration: 0.3 }}
+                                                transition={{ delay: i * 0.07, duration: 0.3 }}
                                                 onClick={() => navigate(`/movies/${movie.imdbID}`)}
-                                                className="flex-shrink-0 w-28 cursor-pointer"
-                                                whileHover={{ scale: 1.05 }}
+                                                className="flex-shrink-0 cursor-pointer"
+                                                style={{ width: "100px" }}
+                                                whileHover={{ y: -3, transition: { duration: 0.18 } }}
                                             >
                                                 {movie.Poster !== "N/A" ? (
                                                     <img
                                                         src={movie.Poster}
                                                         alt={movie.Title}
-                                                        className="w-28 object-cover rounded-lg"
-                                                        style={{ height: "168px" }}
+                                                        className="w-full object-cover rounded-lg"
+                                                        style={{ height: "150px" }}
                                                     />
                                                 ) : (
                                                     <div
-                                                        className="w-28 rounded-lg flex items-center justify-center"
-                                                        style={{ height: "168px", backgroundColor: "var(--bg-secondary)" }}
+                                                        className="w-full rounded-lg flex items-center justify-center"
+                                                        style={{ height: "150px", backgroundColor: "var(--bg-secondary)" }}
                                                     >
                                                         🎬
                                                     </div>
@@ -189,9 +179,8 @@ const Search = () => {
                                 </div>
                             )}
 
-                            {/* Featured */}
-                            <div className="mt-10">
-                                <h2 className="mb-4" style={{ color: "var(--text-primary)" }}>
+                            <div className={recentMovies.length > 0 ? "mt-10" : "mt-12"}>
+                                <h2 className="mb-5" style={{ fontSize: "1rem", color: "var(--text-primary)" }}>
                                     🎬 Featured
                                 </h2>
                                 {featuredLoading && renderSkeletons()}
@@ -211,7 +200,6 @@ const Search = () => {
                         </motion.div>
                     )}
 
-                    {/* ── Search results ───────────────────────── */}
                     {query && (
                         <motion.div
                             key="results"
@@ -225,7 +213,7 @@ const Search = () => {
 
                             {results.length > 0 && (
                                 <>
-                                    <p className="mb-4 text-sm" style={{ color: "var(--text-muted)" }}>
+                                    <p className="mb-5 text-sm" style={{ color: "var(--text-muted)" }}>
                                         {totalResults} results for{" "}
                                         <span style={{ color: "var(--accent)" }}>"{query}"</span>
                                     </p>
@@ -240,9 +228,8 @@ const Search = () => {
                                         ))}
                                     </motion.div>
 
-                                    {/* Load More */}
                                     {hasMore && (
-                                        <div className="flex justify-center mt-10">
+                                        <div className="flex justify-center mt-12">
                                             <motion.button
                                                 onClick={handleLoadMore}
                                                 disabled={isLoading}
@@ -255,7 +242,7 @@ const Search = () => {
                                                     color: "var(--accent)",
                                                     cursor: isLoading ? "not-allowed" : "pointer",
                                                     opacity: isLoading ? 0.5 : 1,
-                                                    transition: "background-color 0.2s ease",
+                                                    transition: "background-color 0.2s ease, color 0.2s ease",
                                                 }}
                                                 onMouseEnter={e => {
                                                     e.currentTarget.style.backgroundColor = "var(--accent)"

@@ -9,27 +9,24 @@ const SkeletonCard = () => {
                 overflow: "hidden",
             }}
         >
-            {/* Poster placeholder */}
             <div
-                className="w-full"
                 style={{
-                    height: "260px",
+                    aspectRatio: "2/3",
                     backgroundColor: "var(--skeleton-base)",
                 }}
             />
-            {/* Info placeholder */}
             <div className="p-3 flex flex-col gap-2">
                 <div
                     className="rounded w-3/4"
-                    style={{ height: "14px", backgroundColor: "var(--skeleton-base)" }}
+                    style={{ height: "13px", backgroundColor: "var(--skeleton-base)" }}
                 />
                 <div
                     className="rounded w-1/4"
-                    style={{ height: "12px", backgroundColor: "var(--skeleton-base)" }}
+                    style={{ height: "11px", backgroundColor: "var(--skeleton-base)" }}
                 />
             </div>
         </div>
     )
 }
-
+ 
 export default SkeletonCard
