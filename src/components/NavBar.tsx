@@ -34,34 +34,37 @@ const NavBar = () => {
             }}
             className="fixed top-0 left-0 right-0 z-50"
         >
-            <div className="container mx-auto flex items-center justify-between px-6 py-4">
+            <div className="container mx-auto flex items-center justify-between px-6 h-16">
 
-                {/* Left — Logo + username */}
-                <div className="flex items-center gap-3">
-                    <Film size={20} style={{ color: "var(--accent)" }} />
+                <div className="flex items-center gap-2.5">
+                    <Film size={18} style={{ color: "var(--accent)" }} />
                     <span
                         style={{
                             fontFamily: "'Playfair Display', serif",
                             color: "var(--text-primary)",
                             fontWeight: 600,
-                            fontSize: "1.1rem",
-                            letterSpacing: "0.01em"
+                            fontSize: "1.05rem",
+                            letterSpacing: "0.01em",
                         }}
                     >
                         CineSearch
                     </span>
-                    <span
-                        className="text-sm hidden sm:block"
-                        style={{ color: "var(--text-muted)" }}
-                    >
-                        — {currentUser?.username}
-                    </span>
+                    {currentUser?.username && (
+                        <span
+                            className="hidden sm:block text-xs"
+                            style={{
+                                color: "var(--text-muted)",
+                                borderLeft: "1px solid var(--input-border)",
+                                paddingLeft: "0.625rem",
+                                marginLeft: "0.25rem",
+                            }}
+                        >
+                            {currentUser.username}
+                        </span>
+                    )}
                 </div>
 
-                {/* Right — Nav links + actions */}
-                <div className="flex items-center gap-5">
-
-                    {/* Links */}
+                <div className="flex items-center gap-1">
                     {[
                         { label: "Search", path: "/search" },
                         { label: "Favorites", path: "/favorites" },
@@ -69,17 +72,18 @@ const NavBar = () => {
                         <Link
                             key={path}
                             to={path}
-                            className="relative text-sm font-medium"
+                            className="relative px-3 py-1.5 rounded-md text-sm font-medium"
                             style={{
                                 color: isActive(path) ? "var(--accent)" : "var(--text-secondary)",
-                                transition: "color 0.2s ease"
+                                transition: "color 0.2s ease",
+                                textDecoration: "none",
                             }}
                         >
                             {label}
                             {isActive(path) && (
                                 <motion.div
                                     layoutId="navbar-underline"
-                                    className="absolute -bottom-1 left-0 right-0 h-px"
+                                    className="absolute bottom-0 left-3 right-3 h-px"
                                     style={{ backgroundColor: "var(--accent)" }}
                                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                 />
@@ -87,15 +91,13 @@ const NavBar = () => {
                         </Link>
                     ))}
 
-                    {/* Divider */}
-                    <div className="h-4 w-px" style={{ backgroundColor: "var(--input-border)" }} />
+                    <div className="w-px h-4 mx-2" style={{ backgroundColor: "var(--input-border)" }} />
 
-                    {/* Logout */}
                     <motion.button
                         onClick={handleLogout}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-lg"
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.96 }}
+                        className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md"
                         style={{
                             color: "var(--text-secondary)",
                             border: "1px solid var(--input-border)",
@@ -103,22 +105,20 @@ const NavBar = () => {
                             cursor: "pointer",
                         }}
                     >
-                        <LogOut size={15} />
+                        <LogOut size={14} />
                         <span className="hidden sm:block">Logout</span>
                     </motion.button>
 
-                    {/* Theme toggle — after logout */}
                     <motion.button
                         onClick={() => dispatch(toggleTheme())}
-                        whileHover={{ scale: 1.15 }}
+                        whileHover={{ scale: 1.12 }}
                         whileTap={{ scale: 0.9 }}
-                        className="flex items-center justify-center"
+                        className="flex items-center justify-center w-8 h-8 rounded-md ml-1"
                         style={{ color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer" }}
                         title="Toggle theme"
                     >
-                        {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+                        {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
                     </motion.button>
-
                 </div>
             </div>
         </motion.nav>
