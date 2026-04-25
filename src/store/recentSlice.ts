@@ -14,7 +14,7 @@ const recentSlice = createSlice({
     reducers: {
         addToRecent : (state, action: PayloadAction<MovieSearchResult>)=>{
             const filtered = state.movies.filter(movie => movie.imdbID !== action.payload.imdbID)
-            state.movies = [action.payload, ...filtered].slice(0,6)
+            state.movies = [action.payload, ...filtered].slice(0,10)
             localStorage.setItem("recentlyViewed", JSON.stringify(state.movies))
         },
         clearRecent: (state)=>{
