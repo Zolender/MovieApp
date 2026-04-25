@@ -93,12 +93,12 @@ const MovieDetails = () => {
             variants={container}
             initial="hidden"
             animate="visible"
-            className="space-y-10"
+            className="space-y-10 pt-10"
         >
             <motion.button
                 variants={item}
                 onClick={() => navigate(-1)}
-                className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-zinc-100 transition"
+                className="flex items-center gap-2 hover:cursor-pointer text-sm font-medium text-zinc-400 hover:text-zinc-100 transition"
                 whileHover={{ x: -3 }}
             >
                 <ArrowLeft size={15} />
